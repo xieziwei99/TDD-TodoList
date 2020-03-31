@@ -32,3 +32,13 @@
 2. 编写lists/tests.py，写一个单元测试
 3. 运行`python .\manage.py test`，查看单元测试是否成功
 4. git commit
+
+## 第4次提交
+1. 关于Django的MVC：
+    1. Django中MVC的概念与一般认为的MVC不一样，Django中的Model就是M，但Django中用View代表C，用Template代表V
+    2. 所以Django中的是：MTV设计模式
+2. 更改lists/tests.py，并运行单元测试`python .\manage.py test`
+3. 编写 lists/views.py，增加home_page变量，代表view
+4. 编写superlists/urls.py，增加从"/"到lists.views.home_page的映射
+5. 更改lists/views.py，将变量home_page改为函数home_page，真正代表view
+6. git commit -am "First unit test and url mapping, dummy view"
