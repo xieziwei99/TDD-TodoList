@@ -26,3 +26,9 @@
 
 ## 第2次提交
 1. 编写functional_test.py，更新一些代码
+
+## 第3次提交
+1. 新建一个lists app: `python .\manage.py startapp lists`
+2. 编写lists/tests.py，写一个单元测试
+3. 运行`python .\manage.py test`，查看单元测试是否成功
+4. git commit
