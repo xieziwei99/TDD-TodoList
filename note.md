@@ -42,3 +42,9 @@
 4. 编写superlists/urls.py，增加从"/"到lists.views.home_page的映射
 5. 更改lists/views.py，将变量home_page改为函数home_page，真正代表view
 6. git commit -am "First unit test and url mapping, dummy view"
+
+## 第5次提交
+1. 编写lists/tests.py，增加测试，判断访问主页是否返回了正确的html，运行测试，预料的失败
+2. 为了使测试通过，更改 lists/views.py 中 home_page 方法，再次运行测试，成功
+3. 运行 python manage.py runserver，此时打开 http://127.0.0.1:8000/ 可以看到主页
+4. git commit -am "简单的网页"
