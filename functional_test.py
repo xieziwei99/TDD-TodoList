@@ -1,5 +1,7 @@
 from selenium import webdriver
 import unittest
+from selenium.webdriver.common.keys import Keys
+import time
 
 class NewVisitorTest(unittest.TestCase):     # 测试类以Test结尾
     def setUp(self):    # 在所有test之前运行
@@ -16,18 +18,30 @@ class NewVisitorTest(unittest.TestCase):     # 测试类以Test结尾
 
         # 张三注意到页的title是To-Do lists
         self.assertIn('To-Do', self.browser.title)
+        header_text = self.browser.find_element_by_tag_name('h1').text
+        self.assertIn('To-Do', header_text)
+
+        # 他被邀请去做一个to-do item
+        inputbox = self.browser.find_elements_by_id('id_new_item')
+        self.assertEqual(inputbox.get_attribute('placeholder'), 'Enter a to-do item')
+
+        # 张三在文本框中输入"Buy peacock features"
+        inputbox.send_keys('Buy peacock features')
+
+        # 他按下enter，页面更新了，在to-do lists中显示出"1: Buy peacock features"
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
+
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertTrue(any(row.text == '1: Buy peacock features' for row in rows))
+
+        # 这里还有一个输入框让他输入另外一个项，他输入"Use peacock features to make a fly"
         self.fail('Finish the test.')
 
 if __name__ == "__main__":
     unittest.main()
 
-# 他被邀请去做一个to-do item
-
-# 张三在文本框中输入"Buy peacock features"
-
-# 他按下enter，页面更新了，在to-do lists中显示出"1: Buy peacock features"
-
-# 这里还有一个输入框让他输入另外一个项，他输入"Use peacock features to make a fly"
 
 # 页面又更新了，显示出两条item
 

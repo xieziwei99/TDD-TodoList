@@ -48,3 +48,7 @@
 2. 为了使测试通过，更改 lists/views.py 中 home_page 方法，再次运行测试，成功
 3. 运行 python manage.py runserver，此时打开 http://127.0.0.1:8000/ 可以看到主页
 4. git commit -am "简单的网页"
+
+## 第6次提交
+1. 编写 functional_test.py ，增加一些用户故事
+2. git commit -am "增加功能测：可以输入 to-do item"
