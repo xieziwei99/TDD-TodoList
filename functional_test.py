@@ -3,6 +3,7 @@ import unittest
 from selenium.webdriver.common.keys import Keys
 import time
 
+
 class NewVisitorTest(unittest.TestCase):     # 测试类以Test结尾
     def setUp(self):    # 在所有test之前运行
         # return super().setUp()
@@ -22,8 +23,9 @@ class NewVisitorTest(unittest.TestCase):     # 测试类以Test结尾
         self.assertIn('To-Do', header_text)
 
         # 他被邀请去做一个to-do item
-        inputbox = self.browser.find_elements_by_id('id_new_item')
-        self.assertEqual(inputbox.get_attribute('placeholder'), 'Enter a to-do item')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertEqual(inputbox.get_attribute(
+            'placeholder'), 'Enter a to-do item')
 
         # 张三在文本框中输入"Buy peacock features"
         inputbox.send_keys('Buy peacock features')
@@ -34,10 +36,12 @@ class NewVisitorTest(unittest.TestCase):     # 测试类以Test结尾
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(any(row.text == '1: Buy peacock features' for row in rows))
+        self.assertTrue(any(row.text == '1: Buy peacock features' for row in rows),
+                        "New to-do item did not appear in table")
 
         # 这里还有一个输入框让他输入另外一个项，他输入"Use peacock features to make a fly"
         self.fail('Finish the test.')
+
 
 if __name__ == "__main__":
     unittest.main()
