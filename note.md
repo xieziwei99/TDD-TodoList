@@ -52,3 +52,12 @@
 ## 第6次提交
 1. 编写 functional_test.py ，增加一些用户故事
 2. git commit -am "增加功能测：可以输入 to-do item"
+
+## 第7次提交
+1. 单元测不测内容，要测逻辑，控制流，配置信息
+2. 新建 lists\templates\home.html 模版文件，编写
+3. 更改 lists\views.py ，返回编写好的模版
+4. 编写 superlists\settings.py ，向 Django 注册 lists app
+5. 更改 lists\tests.py ，用 Django Test Client 改进单元测
+6. 重构的过程不能添加新的功能
+7. 提交 使用模版重构主页

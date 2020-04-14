@@ -5,12 +5,4 @@ from django.http import HttpRequest, HttpResponse
 
 
 def home_page(request: HttpRequest):
-    return HttpResponse(
-        '''<html>
-            <head>
-            <title>To-Do lists</title>
-            </head>    
-            <body>
-            <h1>Hello TDD Django</h1>
-            </body>
-            </html>''')
+    return render(request, 'home.html')
