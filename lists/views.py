@@ -12,12 +12,14 @@ def home_page(request: HttpRequest):
     # # request.POST.get('item_text', '')
     # # 如果是以 get 方法请求，则没有传递 item_text 作为表单数据，用此方法返回空字符串，不至于报错KeyError
     # return render(request, 'home.html', {'new_item_text': item.text})
-    if request.method == 'POST':
-        Item.objects.create(text=request.POST['item_text'])
-        return redirect('/lists/the-only-list-in-the-world')
     return render(request, 'home.html')
 
 
 def view_list(request: HttpRequest):
     items = Item.objects.all()
     return render(request, 'list.html', {'items': items})
+
+
+def new_list(request: HttpRequest):
+    Item.objects.create(text=request.POST['item_text'])
+    return redirect('/lists/the-only-list-in-the-world')
