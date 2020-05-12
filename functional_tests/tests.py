@@ -5,7 +5,7 @@ import time
 from django.test import LiveServerTestCase
 from selenium.common.exceptions import WebDriverException
 
-MAX_WAIT = 10
+MAX_WAIT = 2
 
 # LiveServerTestCase 会自动创建一个测试数据库 并启动一个开发服务器来运行功能测试
 # 因此，可以直接使用 python manage.py test .\functional_tests\ 来运行测试，而不需要提前运行 runserver
