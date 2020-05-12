@@ -57,13 +57,9 @@ class NewVisitorTest(LiveServerTestCase):     # 测试类以Test结尾
         self.wait_for_row_in_list_table(
             '2: Use peacock features to make a fly')
 
-        # 张三想知道网站是否记住了他的代办列表，他发现网站为他生成了一个独立的URL
-
         # 他再次访问了那个URL，发现to-do list还在
 
         # 他很满意的睡觉去了
-
-        self.fail('Finish the test.')
 
     def wait_for_row_in_list_table(self, row_text: str):
         start_time = time.time()
@@ -77,3 +73,43 @@ class NewVisitorTest(LiveServerTestCase):     # 测试类以Test结尾
                 if time.time() - start_time > MAX_WAIT:
                     raise e
                 time.sleep(0.5)
+
+    def test_multiple_users_can_start_lists_at_different_urls(self):
+        self.browser.get(self.live_server_url)
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys("Buy peacock features")
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table("1: Buy peacock features")
+
+        # 张三想知道网站是否记住了他的代办列表，他发现网站为他生成了一个独立的URL
+        zhangsan_list_url = self.browser.current_url
+        self.assertRegex(zhangsan_list_url, '/lists/.+')  # .+ 贪婪匹配
+
+        # 一个新用户李四来到的网站
+        # 我们使用一个新的 session 来确保 cookies 中不含有张三的信息
+        self.browser.quit()
+        self.browser = webdriver.Firefox()
+
+        # 李四访问主页，发现没有张三的 lists
+        self.browser.get(self.live_server_url)
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Buy peacock features', page_text)
+        self.assertNotIn('make a fly', page_text)
+
+        # 李四输入了一个新的 item
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Buy milk')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: Buy milk')
+
+        # 李四得到了他的唯一的 url
+        lisi_list_url = self.browser.current_url
+        self.assertRegex(lisi_list_url, '/lists/.+')
+        self.assertNotEqual(lisi_list_url, zhangsan_list_url)
+
+        # 再次检查没有张三的 lists
+        page_text = self.browser.find_element_by_tag_name('body').text
+        self.assertNotIn('Buy peacock features', page_text)
+        self.assertIn('Buy milk', page_text)
+
+        # 张三和李四都满意的睡觉去了
