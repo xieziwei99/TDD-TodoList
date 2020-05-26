@@ -7,20 +7,21 @@ from selenium.common.exceptions import WebDriverException
 
 MAX_WAIT = 2
 
+
 # LiveServerTestCase 会自动创建一个测试数据库 并启动一个开发服务器来运行功能测试
 # 因此，可以直接使用 python manage.py test .\functional_tests\ 来运行测试，而不需要提前运行 runserver
 
 
-class NewVisitorTest(LiveServerTestCase):     # 测试类以Test结尾
-    def setUp(self):    # 在所有test之前运行
+class NewVisitorTest(LiveServerTestCase):  # 测试类以Test结尾
+    def setUp(self):  # 在所有test之前运行
         # return super().setUp()
         self.browser = webdriver.Firefox()
 
-    def tearDown(self):     # 在所有test之后运行
+    def tearDown(self):  # 在所有test之后运行
         # return super().tearDown()
         self.browser.quit()
 
-    def test_can_start_a_list_and_retrieve_it_later(self):      # 测试方法以test开头
+    def test_can_start_a_list_and_retrieve_it_later(self):  # 测试方法以test开头
         # 张三进入网站首页
         self.browser.get(self.live_server_url)
 
@@ -113,3 +114,19 @@ class NewVisitorTest(LiveServerTestCase):     # 测试类以Test结尾
         self.assertIn('Buy milk', page_text)
 
         # 张三和李四都满意的睡觉去了
+
+    def test_layout_and_styling(self):
+        # 张三来到主页
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        # 他注意到输入框放到中间了
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=10)
+
+        # 他新启了一个 list，注意到输入框也放在中间
+        inputbox.send_keys("testing")
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: testing')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] / 2, 512, delta=10)
