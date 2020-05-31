@@ -1,3 +1,4 @@
+import os
 import time
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -16,6 +17,9 @@ class NewVisitorTest(StaticLiveServerTestCase):  # 测试类以Test结尾
     def setUp(self):  # 在所有test之前运行
         # return super().setUp()
         self.browser = webdriver.Firefox()
+        staging_server = os.environ.get('STAGING_SERVER')
+        if staging_server:
+            self.live_server_url = 'http://' + staging_server
 
     def tearDown(self):  # 在所有test之后运行
         # return super().tearDown()
