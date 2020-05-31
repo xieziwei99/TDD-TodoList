@@ -1,9 +1,9 @@
-from selenium import webdriver
-import unittest
-from selenium.webdriver.common.keys import Keys
 import time
-from django.test import LiveServerTestCase
+
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.common.keys import Keys
 
 MAX_WAIT = 2
 
@@ -12,7 +12,7 @@ MAX_WAIT = 2
 # 因此，可以直接使用 python manage.py test .\functional_tests\ 来运行测试，而不需要提前运行 runserver
 
 
-class NewVisitorTest(LiveServerTestCase):  # 测试类以Test结尾
+class NewVisitorTest(StaticLiveServerTestCase):  # 测试类以Test结尾
     def setUp(self):  # 在所有test之前运行
         # return super().setUp()
         self.browser = webdriver.Firefox()
